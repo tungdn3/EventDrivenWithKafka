@@ -1,0 +1,22 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div style="display: flex; flex-direction: column; align-items: center;">
+    <h1 class="display-4">Stock</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Remaining</th>
+        </tr>
+        @foreach (var item in Model.StockItems)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Quality</td>
+            </tr>
+        }
+    </table>
+</div>
