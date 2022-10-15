@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Aesthetic Blue",
+        "imageUrl": "/images/aesthetic blue.jpg",
+        "price": 1.0
+    },
+    {
+        "id": 2,
+        "name": "Bundt",
+        "imageUrl": "/images/bundt.jpg",
+        "price": 1.5
+    },
+    {
+        "id": 3,
+        "name": "Chocolate",
+        "imageUrl": "/images/chocolate.jfif",
+        "price": 0.95
+    },
+    {
+        "id": 4,
+        "name": "Naked",
+        "imageUrl": "/images/naked.jfif",
+        "price": 0.5
+    },
+    {
+        "id": 5,
+        "name": "Pineapple",
+        "imageUrl": "/images/pineapple.jpg",
+        "price": 2.5
+    },
+    {
+        "id": 6,
+        "name": "Berry",
+        "imageUrl": "/images/R.jfif",
+        "price": 1.8
+    }
+]
