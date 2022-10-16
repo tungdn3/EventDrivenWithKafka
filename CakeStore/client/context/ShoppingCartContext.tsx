@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useState } from "react"
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import { ShoppingCart } from "../components/ShoppingCart";
 
 type ShoppingCartProviderProps = {
@@ -33,6 +33,20 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const quantity = cartItems.reduce((quantity, item) => quantity += item.quantity, 0);
 
+    useEffect(() => {
+        const valueJson = localStorage.getItem("cart-items");
+        if (valueJson) {
+            setCartItems(JSON.parse(valueJson));
+        }
+    }, []);
+
+    function saveCartItemsToLocalStorage(cartItems: CartItem[]) {
+        setTimeout(() => {
+            console.log('save cart items', cartItems)
+            localStorage.setItem("cart-items", JSON.stringify(cartItems));
+        }, 0);
+    }
+
     function getItemQuantity(id: number) {
         const item = cartItems.find(x => x.id === id);
         return item?.quantity || 0;
@@ -40,16 +54,19 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
 
     function increase(id: number) {
         const item = cartItems.find(x => x.id === id);
+        let newCartItems: CartItem[];
         if (item) {
-            setCartItems(cartItems.map(x => {
+            newCartItems = cartItems.map(x => {
                 if (x === item) {
                     return { ...item, quantity: item.quantity + 1 };
                 }
                 return x;
-            }))
+            });
         } else {
-            setCartItems([...cartItems, { id: id, quantity: 1 }])
+            newCartItems = [...cartItems, { id: id, quantity: 1 }];
         }
+        setCartItems(newCartItems);
+        saveCartItemsToLocalStorage(newCartItems);
     }
 
     function decrease(id: number) {
@@ -57,24 +74,31 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         if (!item) {
             return;
         }
+        let newCartItems: CartItem[];
         if (item.quantity === 1) {
-            setCartItems(cartItems.filter(x => x !== item));
+            newCartItems = cartItems.filter(x => x !== item);
         } else {
-            setCartItems(cartItems.map(x => {
+            
+            newCartItems = cartItems.map(x => {
                 if (x === item) {
                     return { ...x, quantity: x.quantity - 1 };
                 }
                 return x;
-            }));
+            });
         }
+        setCartItems(newCartItems);
+        saveCartItemsToLocalStorage(newCartItems);
     }
 
     function removeFromCart(id: number) {
-        setCartItems(cartItems.filter(x => x.id !== id));
+        const newCartItems = cartItems.filter(x => x.id !== id);
+        setCartItems(newCartItems);
+        saveCartItemsToLocalStorage(newCartItems);
     }
 
     function clearAll() {
         setCartItems([]);
+        saveCartItemsToLocalStorage([]);
     }
 
     function closeCart() {
