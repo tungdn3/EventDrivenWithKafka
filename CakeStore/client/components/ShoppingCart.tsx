@@ -7,8 +7,6 @@ import storeItems from "../data/items.json";
 import axios from "axios";
 import { useRouter } from 'next/router'
 
-const baseURL = "https://localhost:7069/";
-
 type ShoppingCartProps = {
     isOpen: boolean;
 }
@@ -30,10 +28,11 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             return { ...storeItem, quantity: item.quantity };
         });
         axios
-            .post(`${baseURL}Orders`, {
+            .post(`${process.env.NEXT_PUBLIC_URL_API}/Orders`, {
                 cakes: selectedCakes,
             })
             .then(() => {
+                closeCart();
                 clearAll();
                 router.push("/thank-you");
             })

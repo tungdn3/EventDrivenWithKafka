@@ -73,7 +73,7 @@ namespace CakeStore.Stock
                 var orderedItem = orderCreatedEvent.Cakes.FirstOrDefault(o => o.Id == x.Id);
                 if (orderedItem != null)
                 {
-                    x.Quality -= orderedItem.Count;
+                    x.Quality -= orderedItem.Quantity;
                 }
 
                 return x;
